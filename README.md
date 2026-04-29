@@ -1,61 +1,61 @@
 # Subscription Leak Radar
 
-English | [中文](README.zh-CN.md)
+[English](README.md) | 中文
 
-Subscription Leak Radar is a local-first recurring charge audit desk for people who want to find forgotten subscriptions, price creep, duplicate services, and upcoming renewals from their own statement exports.
+Subscription Leak Radar 是一个本地优先的订阅漏费审计工具，帮助用户从银行或信用卡流水里找出忘记取消的订阅、重复服务、涨价项目和即将续费的扣款。
 
-- Detect recurring charges from bank or credit-card CSV exports instead of asking you to hand-write every subscription.
-- Estimate annualized spend, renewal timing, price increases, duplicate categories, and cancellation priority.
-- Export a Markdown and JSON report you can review privately before cancelling or downgrading services.
+- 从银行/信用卡 CSV 或粘贴的交易文本中识别 recurring charges，不要求用户手动列出所有订阅。
+- 估算年化支出、续费时间、涨价幅度、重复类别和取消优先级。
+- 生成本地 Markdown / JSON 报告，方便用户在取消或降级服务前先做私密审计。
 
-Screenshot/GIF to be added before launch.
+上线前补充截图或 GIF。
 
-Quick demo:
+快速体验：
 
 ```bash
 python server.py
 ```
 
-Open `http://127.0.0.1:8786`, click **Load sample**, then **Run analysis**.
+打开 `http://127.0.0.1:8786`，点击 **Load sample**，再点击 **Run analysis**。
 
 ## Problem
 
-Recurring charges are easy to ignore because they are small, automatic, and scattered across cards, bank accounts, app stores, PayPal, and free trials. A person may remember the obvious subscriptions, but still miss duplicate streaming services, app-store renewals, annual charges, AI tools used once, or a plan that quietly became more expensive.
+订阅扣费很容易被忽略，因为金额通常不大、自动发生，而且分散在银行卡、信用卡、App Store、PayPal、免费试用和不同服务商里。用户往往记得几个明显的订阅，但会漏掉重复的流媒体服务、应用商店续费、年度扣款、只用过一次的 AI 工具，或者悄悄涨价的套餐。
 
-The painful part is not only the math. The real work is opening statements, finding repeated merchants, recognizing disguised billing names, estimating the annual impact, checking which renewals are soon, and deciding what to cancel first.
+真正麻烦的不是简单加总金额，而是打开流水、找重复商户、识别奇怪的扣款名、估算年度影响、判断哪些马上续费，然后决定先取消哪一个。
 
 ## Why Existing Approaches Are Not Enough
 
-Spreadsheets work only after the user has already found and typed every subscription. Budgeting apps can be powerful, but many require account linking, cloud sync, or paid plans before the user gets a clear subscription audit. Manual subscription trackers often ask the user to enter merchant names, dates, and prices one by one, which is exactly the work the product should reduce.
+表格可以记账，但前提是用户已经把每个订阅都找出来并手动填进去。预算软件功能很强，但很多需要绑定账户、云同步或付费后才能得到清晰的订阅审计。手动订阅 tracker 通常要求用户逐项输入商户、日期和价格，而这正是产品应该帮用户减少的工作。
 
-Subscription Leak Radar focuses on a smaller local-first workflow: import statement-like data, infer recurring charges, surface the highest-value review items, and export a decision report.
+Subscription Leak Radar 只聚焦一个更轻、更私密的本地工作流：导入流水，推断 recurring charges，排出最值得检查的项目，并导出决策报告。
 
 ## What This Project Does
 
-`statement CSV or pasted transaction text -> recurring charge detection -> renewal and cost analysis -> cancellation priority queue -> Markdown/JSON report`
+`流水 CSV 或粘贴交易文本 -> 订阅识别 -> 续费和成本分析 -> 取消优先级队列 -> Markdown/JSON 报告`
 
-The app parses transactions, normalizes merchant names, groups repeated charges, infers cadence, estimates annualized cost, flags price increases and category duplicates, then ranks what to review first.
+应用会解析交易、规范化商户名、聚合同一商户的重复扣款、推断扣款周期、估算年化成本、标记涨价和重复类别，然后告诉用户哪些项目最应该先检查。
 
 ## Key Features
 
-- Flexible CSV column mapping for common bank and card export headers such as `date`, `posted_date`, `description`, `merchant`, `amount`, `debit`, and `charge`.
-- Pasted transaction text parser for statement lines copied from PDFs, emails, or banking pages.
-- Manual subscription entry for items that do not appear in the imported sample window.
-- Recurrence detection with cadence inference for weekly, monthly, quarterly, annual, and irregular charges.
-- Price-change detection when the latest charge is meaningfully higher than the first observed charge.
-- Duplicate category flags for overlapping services such as multiple AI tools, streaming services, storage plans, or app-store subscriptions.
-- Renewal timeline, category spend board, cancellation priority queue, and what-if savings scenarios.
-- Local Markdown and JSON export.
+- 灵活 CSV 字段映射，支持常见银行/信用卡导出字段，例如 `date`、`posted_date`、`description`、`merchant`、`amount`、`debit`、`charge`。
+- 粘贴交易文本解析，适合从 PDF、邮件或网银页面复制出来的流水。
+- 手动补录订阅，覆盖导入窗口之外的年度订阅或特殊服务。
+- 周、月、季度、年度和不规则扣款的周期推断。
+- 检测最近扣款是否明显高于最早观察到的扣款。
+- 标记同类别重复服务，例如多个 AI 工具、流媒体、云存储或应用商店订阅。
+- 续费时间线、类别支出面板、取消优先级队列和节省情景分析。
+- 本地 Markdown / JSON 导出。
 
-## Why this is useful
+## 为什么有用
 
-This turns a messy card or bank statement into a subscription leak map: repeated merchants, estimated billing cadence, price changes, duplicate categories, renewal timing, and the cancellation queue that deserves review first.
+它把杂乱的银行卡或信用卡流水变成一张订阅漏费地图：重复扣款商户、预计扣款周期、涨价项目、重复类别、续费时间，以及最应该先检查的取消优先级队列。
 
 ## Demo / Screenshots
 
-Screenshot/GIF to be added before launch.
+上线前补充截图或 GIF。
 
-The bundled demo data includes 40+ realistic statement rows across streaming, AI tools, storage, app-store billing, gym membership, annual membership, and one-time non-subscription purchases.
+内置 demo 数据包含 40 多条真实感流水，覆盖流媒体、AI 工具、云存储、应用商店扣款、健身房会员、年度会员和一次性非订阅消费。
 
 ## Quick Start
 
@@ -64,17 +64,17 @@ cd products/product-020/repo
 python server.py
 ```
 
-Then open:
+然后打开：
 
 ```text
 http://127.0.0.1:8786
 ```
 
-No internet connection, account linking, API key, or external service is required.
+不需要联网，不需要绑定银行账户，不需要 API key，也不会把数据发送到外部服务。
 
 ## Example Input / Output
 
-Sample CSV:
+示例 CSV：
 
 ```csv
 Date,Description,Amount,Currency,Account
@@ -84,14 +84,14 @@ Date,Description,Amount,Currency,Account
 2026-04-15,OPENAI CHATGPT SUBSCRIPTION,-20.00,USD,Credit Card
 ```
 
-Output files:
+输出文件：
 
 ```text
 outputs/subscription-leak-report.md
 outputs/subscription-leak-report.json
 ```
 
-Example output summary:
+示例输出摘要：
 
 ```text
 Detected subscriptions: 11
@@ -102,41 +102,41 @@ Savings scenarios: cancel top 1, cancel top 3, cancel duplicate/price-increase i
 
 ## Use Cases
 
-- Run a quarterly personal subscription audit from a credit-card export.
-- Find recurring AI/software tools that were useful once but no longer justify monthly renewal.
-- Identify duplicate services in the same category before budgeting.
-- Review upcoming renewals before annual or monthly charges hit.
-- Create a local cancellation checklist without sharing bank credentials.
+- 每季度用信用卡导出流水做一次订阅审计。
+- 找出曾经有用、现在已经不值得继续付费的 AI 或软件工具。
+- 在做预算前发现同类别重复服务。
+- 在年度或月度续费前检查即将扣款项目。
+- 不分享银行登录信息，也能生成本地取消清单。
 
 ## How It Works
 
-The analyzer uses deterministic local logic. It maps flexible CSV headers into a normalized transaction model, parses pasted text lines with conservative date/amount patterns, normalizes merchant names, groups transactions by merchant key, calculates interval patterns, infers cadence, and estimates annualized cost. It then scores cancellation priority using cost, renewal timing, price changes, duplicate category signals, confidence, and review flags.
+分析器使用确定性的本地逻辑。它先把不同 CSV 字段映射到统一交易模型，再用保守的日期/金额模式解析粘贴文本，然后规范化商户名、按商户分组、计算扣款间隔、推断周期并估算年化成本。取消优先级会综合成本、续费时间、涨价、重复类别、置信度和需要人工复核的标记。
 
-The output is intentionally decision-oriented: the app does not only say that a subscription exists; it tells the user which items deserve attention first and why.
+输出强调决策，而不只是罗列订阅：它会说明哪些项目值得先看、为什么值得先看。
 
 ## Project Structure
 
 ```text
-subscription_leak_radar/analyzer.py  Core parser, recurrence detector, scoring, exports
-server.py                           Local HTTP server
-web/                                Browser UI
-samples/                            Realistic sample statement export
-examples/                           Pasted transaction text example
-tests/                              Unit tests
-scripts/smoke_test.py               User-perspective smoke test
+subscription_leak_radar/analyzer.py  核心解析、订阅识别、评分和导出
+server.py                           本地 HTTP 服务
+web/                                浏览器界面
+samples/                            真实感流水样例
+examples/                           粘贴交易文本样例
+tests/                              单元测试
+scripts/smoke_test.py               用户视角 smoke test
 ```
 
 ## Roadmap
 
-- Source-specific import presets for PayPal, Apple, Google Play, bank exports, and card statements.
-- PDF statement text extraction helper.
-- User-editable merchant catalog and cancellation URL table.
-- Calendar export for upcoming renewals.
-- Optional encrypted local history for month-over-month audits.
+- PayPal、Apple、Google Play、银行和信用卡导出的 source-specific preset。
+- PDF 流水文本提取辅助功能。
+- 可编辑商户目录和取消链接表。
+- 即将续费项目的日历导出。
+- 可选的加密本地历史，用于月度对比审计。
 
 ## Limitations
 
-Subscription Leak Radar does not connect to banks, cancel services, send emails, or provide financial advice. Recurrence detection is based on imported transaction data, so short date ranges, renamed merchants, annual charges with only one observed transaction, or bundled app-store charges may need manual review. PDF/image OCR is not implemented; users can paste extracted statement text instead.
+Subscription Leak Radar 不连接银行账户，不自动取消服务，不发送邮件，也不提供财务建议。订阅识别依赖用户导入的流水数据；如果日期范围太短、商户改名、年度订阅只出现一次，或 App Store 合并扣款，可能需要人工复核。当前不实现 PDF/图片 OCR；用户可以粘贴已经提取出的流水文本。
 
 ## License
 
@@ -144,4 +144,4 @@ MIT
 
 ## Language
 
-中文版本: [README.zh-CN.md](README.zh-CN.md)
+English version: [README.md](README.md)
