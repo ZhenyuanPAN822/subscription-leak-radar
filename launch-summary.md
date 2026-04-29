@@ -2,7 +2,11 @@
 
 Product: Subscription Leak Radar
 
-Status: LOCAL_COMPLETE_NOT_PUBLISHED
+Status: PUBLISHED_GITHUB_PUBLIC
+
+GitHub main: https://github.com/ZhenyuanPAN822/subscription-leak-radar
+
+GitHub Chinese branch: https://github.com/ZhenyuanPAN822/subscription-leak-radar/tree/zh-CN
 
 ## Positioning
 
@@ -20,7 +24,6 @@ Subscription Leak Radar is a local-first recurring charge audit desk for people 
 
 ## Ship Notes
 
-This product is not yet pushed to GitHub. It is ready for local review and can be published after the user confirms.
+This product has been pushed to GitHub with English `main` as the default branch and Chinese GitHub presentation files on `zh-CN`.
 
 The README intentionally does not claim bank account linking, automatic cancellation, PDF/OCR extraction, or financial advice.
-
